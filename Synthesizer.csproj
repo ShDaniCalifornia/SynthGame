@@ -1,0 +1,30 @@
+﻿<Project Sdk="Godot.NET.Sdk/4.3.0">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
+		<TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="One\**" />
+		<EmbeddedResource Remove="One\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ManagedBass" Version="3.1.1" />
+		<PackageReference Include="ManagedBass.Midi" Version="3.1.1" />
+		<PackageReference Include="MeltySynth" Version="2.4.1" />
+		<PackageReference Include="NAudio" Version="2.2.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Synthesizer.Database\Synthesizer.Database.csproj" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://cjcjv4sraeeh2"]
+
+[ext_resource type="Texture2D" uid="uid://d3mjdma8vfaeu" path="res://Material/haircell-kydex-bl/haircell-kydex_albedo.png" id="1_et6j5"]
+[ext_resource type="Texture2D" uid="uid://c0fxlilifbeb5" path="res://Material/haircell-kydex-bl/haircell-kydex_height.png" id="2_qhuuj"]
+[ext_resource type="Texture2D" uid="uid://daaf5c6sqav2x" path="res://Material/haircell-kydex-bl/haircell-kydex_normal-ogl.png" id="3_yrbht"]
+[ext_resource type="Texture2D" uid="uid://bjyxcoe2mdxfw" path="res://Material/haircell-kydex-bl/haircell-kydex_roughness.png" id="4_3xmov"]
+
+[resource]
+albedo_texture = ExtResource("1_et6j5")
+roughness_texture = ExtResource("4_3xmov")
+normal_enabled = true
+normal_scale = 0.28
+normal_texture = ExtResource("3_yrbht")
+heightmap_texture = ExtResource("2_qhuuj")
+uv1_scale = Vector3(-0.65, -0.65, -0.65)
+uv1_triplanar = true
+uv1_world_triplanar = true
