@@ -2,67 +2,66 @@
 
 ###
 
-<h3 align="left"> 📌 О проекте: </h3>
-<p align="left"> Проект представляет собой приложение с возможностью подключения MIDI-устройств, разработанный с использованием языков C# и GDScript. Данный проект был разработан для дипломной работы. </p>
+<h3 align="left"> 📌 About the project: </h3>
+<p align="left"> The project is an application with the ability to connect MIDI devices, developed using C# and GDScript. This project was developed for a graduation thesis. </p>
 
 ###
 
-<h3 align="left"> 💾 Клонирование репозитория: </h3>
+<h3 align="left"> 💾 Cloning the repository: </h3>
 <p align="left"> git clone https://github.com/ShDaniCalifornia/SynthGame.git </p>
 
 ###
 
-<h3 align="left"> ⚙️ Ключевые особенности: </h3>
-<p align="left"> - возможность подключения MIDI-устройств (см. Подключение MIDI-устройства); </p>
-<p align="left"> - регистрация и авторизация аккаунта; </p>
-<p align="left"> - прохождение уровней и получение опыта, для повышения уровня профиля; </p>
-<p align="left"> - изменение звучания MIDI-устройства с помощью выбора SoundFont в настройках игры (см. установка SoundFont); </p>
-<p align="left"> - переключение устройств ввода и вывода в настройках игры. </p>
+<h3 align="left"> ⚙️ Key features: </h3>
+<p align="left"> - Ability to connect MIDI devices (see Connecting a MIDI device); </p>
+<p align="left"> - Account registration and login; </p>
+<p align="left"> - Completing levels and gaining experience to increase profile level; </p>
+<p align="left"> - Changing the sound of a MIDI device by selecting a SoundFont in the game settings (see Installing SoundFont); </p>
+<p align="left"> - Switching input and output devices in the game settings. </p>
 
 ###
 
-<h3 align="left"> 🛠️ Технический стек и зависимости: </h3>
+<h3 align="left"> 🛠️ Tech stack and dependencies: </h3>
 
-<p align="left"> 1. Godot 4.3. (GDScript). </p>
-<p align="left"> - Выполняет роль клиентского уровня и главного управляющего модуля, отвечая за весь пользовательский интерфейс (UI), интерактивную визуализацию клавиатуры, а также за игровую и образовательную логику (система уроков, аутентификация, прогресс). Функционирует как хост-среда, взаимодействуя с низкоуровневыми сервисами C# для обработки аудио и MIDI. </p>
+<p align="left"> 1. Godot 4.3 (GDScript). </p>
+<p align="left"> - Acts as the client layer and main managing module, responsible for all user interface (UI), interactive keyboard visualization, as well as game and educational logic (lesson system, authentication, progress). Functions as a host environment, interacting with low-level C# services for audio and MIDI processing. </p>
 <p align="left"> 2. Visual Studio 2022 (C#). </p>
-<p align="left"> - Выступает в роли бэкенда, который, используя библиотеки по типу NAudio и MeltySynth, обеспечивает аудиовыход, обработку MIDI-входа и управление данными пользователей через Entity Framework Core. </p>
-<p align="left"> - Подключение и реализация взаимодействия с БД, для хранения данных профиля пользователя и прогресса прохождения уроков. (SQL Server) </p>
-<p align="left"> 3. Библиотеки, использованные для проекта Synthesizer: </p>
-<p align="left"> - ManagedBass / ManagedBass.Midi	(3.1.1) </p>
-<p align="left"> - MeltySynth	(2.4.1) </p>
-<p align="left"> - NAudio	(2.2.1) </p>
+<p align="left"> - Serves as the backend, which, using libraries such as NAudio and MeltySynth, provides audio output, MIDI input processing, and user data management via Entity Framework Core. </p>
+<p align="left"> - Handles database connectivity and implementation for storing user profile data and lesson progress (SQL Server). </p>
+<p align="left"> 3. Libraries used for the Synthesizer project: </p>
+<p align="left"> - ManagedBass / ManagedBass.Midi (3.1.1) </p>
+<p align="left"> - MeltySynth (2.4.1) </p>
+<p align="left"> - NAudio (2.2.1) </p>
 <p align="left"> - Microsoft.EntityFrameworkCore (8.0.4) </p>
 
 ###
 
-<h3 align="left"> 🎹 Подключение MIDI-устройства: </h3>
-<p align="left"> Доступно несколько способов подключения, в зависимости от типа вашего MIDI-устройства. </p>
+<h3 align="left"> 🎹 Connecting a MIDI device: </h3>
+<p align="left"> Several connection methods are available, depending on the type of your MIDI device. </p>
 
-<p align="left"> 1. Прямое подключение (MIDI-OUT / USB) </p>
-<p align="left"> • Подключите MIDI-контроллер к компьютеру: </p>
-<p align="left"> - Через USB-кабель: Если ваша клавиатура имеет USB-выход (чаще всего это "USB Type B"), подключите ее напрямую. </p>
-<p align="left"> - Через MIDI-USB адаптер: Если клавиатура имеет только круглые порты MIDI-OUT, используйте соответствующий переходник. </p>
-<p align="left"> • Как правило, устройство определяется системой автоматически. </p>
+<p align="left"> 1. Direct connection (MIDI-OUT / USB) </p>
+<p align="left"> • Connect your MIDI controller to your computer: </p>
+<p align="left"> - Via USB cable: If your keyboard has a USB output (usually "USB Type B"), connect it directly. </p>
+<p align="left"> - Via MIDI-USB adapter: If your keyboard has only round MIDI-OUT ports, use the appropriate adapter. </p>
+<p align="left"> • Typically, the device is detected automatically by the system. </p>
 
+<p align="left"> 2. Bluetooth connection (Using external bridges) </p>
+<p align="left"> • Required software: </p>
+<p align="left"> - midiLoop (Virtual MIDI Cable): Installed to create a virtual port that SynthGame will be able to see; </p>
+<p align="left"> - MidiBerry: Installed to discover your Bluetooth MIDI device and route its signal to the virtual port. </p>
 
-<p align="left"> 2. Подключение по Bluetooth (Использование внешних мостов) </p>
-<p align="left"> • Требуемое ПО: </p>
-<p align="left"> - midiLoop (Virtual MIDI Cable): Устанавливается для создания виртуального порта, который будет видеть SynthGame; </p>
-<p align="left"> - MidiBerry: Устанавливается для обнаружения вашего Bluetooth MIDI-устройства и направления его сигнала в виртуальный порт. </p>
-
-<p align="left"> • Порядок подключения: </p>
-<p align="left"> - запустите midiLoop и создайте виртуальный порт, нажав на плюс. Убедитесь, что в списке отображается активный виртуальный порт (например, LoopPort). Этот порт будет использоваться как мост; </p>
-<p align="left"> - запустите MidiBerry и в верхней части интерфейса найдите ваше физическое Bluetooth-устройство (например,SMK25V2) в списке доступных устройств; </p>
-<p align="left"> - Подключитесь к устройству. </p>
-<p align="left"> - В нижней части интерфейса MidiBerry направьте MIDI-выход вашего Bluetooth-устройства на виртуальный порт, созданный midiLoop (например, LoopPort). </p>
+<p align="left"> • Connection procedure: </p>
+<p align="left"> - Launch midiLoop and create a virtual port by clicking the plus sign. Make sure an active virtual port (e.g., LoopPort) appears in the list. This port will be used as a bridge; </p>
+<p align="left"> - Launch MidiBerry and in the upper part of the interface, find your physical Bluetooth device (e.g., SMK25V2) in the list of available devices; </p>
+<p align="left"> - Connect to the device. </p>
+<p align="left"> - In the lower part of the MidiBerry interface, route the MIDI output of your Bluetooth device to the virtual port created by midiLoop (e.g., LoopPort). </p>
 
 ###
 
-<h3 align="left"> 🔉 Установка SoundFont: </h3>
+<h3 align="left"> 🔉 Installing SoundFont: </h3>
 
-<p align="left"> Для корректной работы синтезатора необходим файл саундфонта FluidR3_GM.sf2, который не включен в репозиторий Git из-за большого размера. </p>
+<p align="left"> For the synthesizer to work correctly, the FluidR3_GM.sf2 SoundFont file is required. It is not included in the Git repository due to its large size. </p>
 
-<p align="left"> 1. Скачайте файл по следующей ссылке: https://member.keymusician.com/Member/FluidR3_GM/index.html </p>
-<p align="left"> 2. Создайте в корневой папке проекта папку с именем SoundFonts. </p>
-<p align="left"> 3. Скопируйте скачанный файл FluidR3_GM.sf2 в эту папку. </p>
+<p align="left"> 1. Download the file from the following link: https://member.keymusician.com/Member/FluidR3_GM/index.html </p>
+<p align="left"> 2. Create a folder named SoundFonts in the project's root directory. </p>
+<p align="left"> 3. Copy the downloaded FluidR3_GM.sf2 file into this folder. </p>
