@@ -5,17 +5,44 @@ using System.Collections.Generic;
 
 namespace Synthesizer.ScriptGame.MidiPluginC
 {
+    /// <summary>
+    /// SettingsMenu — класс, отвечающий за меню настроек приложения
+    /// Загружает списки доступных устройств (MIDI, аудио) и SoundFont'ов,
+    /// а также применяет выбранные пользователем настройки
+    /// </summary>
     public partial class SettingsMenu : Node
     {
+        // ==================== СПИСКИ УСТРОЙСТВ ====================
+
         private List<string> midiDevices = new List<string>();
         private List<string> audioDevices = new List<string>();
         private List<string> soundFonts = new();
+
+        // ==================== СИГНАЛЫ ====================
+
+        /// <summary>
+        /// Сигнал, который срабатывает при выборе нового SoundFont
+        /// Передаёт путь к выбранному файлу
+        /// </summary>
         [Signal]
         public delegate void SoundFontChangedEventHandler(string fontPath);
 
 
+        // ==================== ССЫЛКИ ====================
+
+        /// <summary>
+        /// Ссылка на AudioManager для управления звуком
+        /// Устанавливается из MainScene
+        /// </summary>
         public AudioManager audioManager;
 
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+
+        /// <summary>
+        /// Вызывается автоматически при загрузке сцены
+        /// Загружаем все списки устройств и файлов
+        /// </summary>
         public override void _Ready()
         {
             PopulateMidiDevices();
@@ -23,6 +50,11 @@ namespace Synthesizer.ScriptGame.MidiPluginC
             LoadSoundFonts();
         }
 
+        // ==================== ЗАПОЛНЕНИЕ СПИСКОВ ====================
+
+        /// <summary>
+        /// Заполняет список доступных MIDI-устройств
+        /// </summary>
         public void PopulateMidiDevices()
         {
             midiDevices.Clear();
@@ -32,6 +64,10 @@ namespace Synthesizer.ScriptGame.MidiPluginC
             }
         }
 
+        /// <summary>
+        /// Заполняет список доступных аудио-устройств (наушники, колонки и т.д.)
+        /// С защитой от COM-ошибок.
+        /// </summary>
         public void PopulateAudioDevices()
         {
             audioDevices.Clear();
@@ -54,6 +90,9 @@ namespace Synthesizer.ScriptGame.MidiPluginC
             }
         }
 
+        /// <summary>
+        /// Сканирует папку SoundFonts и собирает все файлы с расширением .sf2
+        /// </summary>
         public void LoadSoundFonts()
         {
             soundFonts.Clear();
@@ -83,6 +122,11 @@ namespace Synthesizer.ScriptGame.MidiPluginC
             dir.ListDirEnd();
         }
 
+        // ==================== МЕТОДЫ ДЛЯ GODOT (OptionButton) ====================
+
+        /// <summary>
+        /// Возвращает список MIDI-устройств в формате Godot Array
+        /// </summary>
         public Godot.Collections.Array GetMidiDevices()
         {
             var arr = new Godot.Collections.Array();
@@ -91,6 +135,9 @@ namespace Synthesizer.ScriptGame.MidiPluginC
             return arr;
         }
 
+        /// <summary>
+        /// Возвращает список аудио-устройств в формате Godot Array
+        /// </summary>
         public Godot.Collections.Array GetAudioDevices()
         {
             var arr = new Godot.Collections.Array();
@@ -99,6 +146,9 @@ namespace Synthesizer.ScriptGame.MidiPluginC
             return arr;
         }
 
+        /// <summary>
+        /// Возвращает список доступных SoundFont'ов
+        /// </summary>
         public Godot.Collections.Array GetSoundFonts()
         {
             var arr = new Godot.Collections.Array();
@@ -107,6 +157,13 @@ namespace Synthesizer.ScriptGame.MidiPluginC
             return arr;
         }
 
+
+        // ==================== ПРИМЕНЕНИЕ НАСТРОЕК ====================
+
+        /// <summary>
+        /// Применяет выбранные настройки MIDI и аудио устройства
+        /// Сохраняет их в конфигурационный файл
+        /// </summary>
         public void ApplySettings(int midiIndex, int audioIndex)
         {
             var midi = GetNode<MidiControllers>("/root/MidiControllers");
@@ -121,7 +178,10 @@ namespace Synthesizer.ScriptGame.MidiPluginC
             config.Save("user://settings.cfg");
         }
 
-        // Вызывается при выборе SoundFont в OptionButton
+        /// <summary>
+        /// Вызывается при выборе SoundFont в OptionButton (из GDScript)
+        /// Сохраняет выбор и уведомляет другие части приложения
+        /// </summary>
         public void OnSoundFontSelected(int index)
         {
             if (index < 0 || index >= soundFonts.Count)

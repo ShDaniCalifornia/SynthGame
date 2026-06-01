@@ -1,16 +1,25 @@
 ﻿using Godot;
-using NAudio.CoreAudioApi;
-using NAudio.Wave;
-using System.IO;
+using NAudio.CoreAudioApi; // Для работы с аудио-устройствами   
+using NAudio.Wave; // Основная библиотека NAudio для воспроизведения звука
+using System.IO; // Для проверки существования файлов SoundFont
 
+
+/// <summary>
+/// AudioManager — главный класс, отвечающий за звук в приложении
+/// Управляет выводом аудио, выбором устройства (наушники), загрузкой SoundFont и проигрыванием нот
+/// </summary>
 public partial class AudioManager : Control
 {
-    private WasapiOut outputDevice;
-    private MidiSampleProvider sampleProvider;
+    private WasapiOut outputDevice; // Устройство вывода звука (NAudio)
+    private MidiSampleProvider sampleProvider; // Провайдер, который генерирует звук из MIDI
 
-    private int currentAudioDeviceIndex = 0;
+    private int currentAudioDeviceIndex = 0; // Текущий индекс выбранного аудио-устройства
 
 
+    /// <summary>
+    /// Инициализация аудио при запуске сцены
+    /// Пытается восстановить сохранённое устройство и отдаёт приоритет наушникам
+    /// </summary>
     public void InitializeAudio()
     {
         int savedIndex = GetSavedAudioDeviceIndex();
@@ -45,12 +54,20 @@ public partial class AudioManager : Control
         // Реализация воспроизведения музыки
     }
 
+
+    /// <summary>
+    /// Устанавливает новый провайдер звука (MidiSampleProvider) и перезапускает вывод.
+    /// </summary>
     public void SetWaveProvider(MidiSampleProvider provider)
     {
         sampleProvider = provider;
         RestartAudioOutput();
     }
 
+
+    /// <summary>
+    /// Публичный метод для смены аудио-устройства
+    /// </summary>
     public void SetAudioDevice(int deviceIndex)
     {
         var enumerator = new MMDeviceEnumerator();
@@ -58,12 +75,16 @@ public partial class AudioManager : Control
 
         if (deviceIndex >= 0 && deviceIndex < devices.Count)
         {
-            currentAudioDeviceIndex = deviceIndex;  // сохраняем текущий индекс устройства
-            SelectOutputDevice(deviceIndex);        // сохраняем в конфиг
+            currentAudioDeviceIndex = deviceIndex;  // сохраняет текущий индекс устройства
+            SelectOutputDevice(deviceIndex);        // сохраняет в конфиг
             RestartAudioOutput();
         }
     }
 
+
+    /// <summary>
+    /// Сохраняет выбранное аудио-устройство в файл настроек в Godot
+    /// </summary>
     public void SelectOutputDevice(int index)
     {
         currentAudioDeviceIndex = index;
@@ -76,6 +97,10 @@ public partial class AudioManager : Control
         RestartAudioOutput();
     }
 
+
+    /// <summary>
+    /// Перезапускает аудио-поток: останавливает старый и запускает новый с выбранным устройством
+    /// </summary>
     private void RestartAudioOutput()
     {
         StopAudio();
@@ -89,11 +114,16 @@ public partial class AudioManager : Control
         if (index < 0 || index >= devices.Count)
             index = 0;
 
+        // Создаёт WasapiOut с низкой задержкой
         outputDevice = new WasapiOut(devices[index], AudioClientShareMode.Shared, false, 100);
-        outputDevice.Init(sampleProvider);
-        outputDevice.Play();
+        outputDevice.Init(sampleProvider); // Подключает наш MIDI-провайдер
+        outputDevice.Play(); // Запускает воспроизведение
     }
 
+
+    /// <summary>
+    /// Корректно останавливает и освобождает аудио-устройство.
+    /// </summary>
     private void StopAudio()
     {
         outputDevice?.Stop();
@@ -101,15 +131,22 @@ public partial class AudioManager : Control
         outputDevice = null;
     }
 
+
+    /// <summary>
+    /// Загружает последний выбранный индекс устройства из файла настроек
+    /// </summary>
     public int GetSavedAudioDeviceIndex()
     {
         var config = new ConfigFile();
         if (config.Load("user://settings.cfg") == Error.Ok)
             return (int)config.GetValue("audio", "device", 0);
-        return 0;
+        return 0; // По умолчанию — первое устройство
     }
 
 
+    /// <summary>
+    /// Загружает новый SoundFont (.sf2) и применяет его
+    /// </summary>
     public void LoadSoundFont(string path)
     {
         if (string.IsNullOrEmpty(path) || !File.Exists(path))
@@ -121,16 +158,28 @@ public partial class AudioManager : Control
         SetWaveProvider(newProvider);
     }
 
+
+    /// <summary>
+    /// Смена текущего инструмента (звучания)
+    /// </summary>
     public void SetInstrument(int program)
     {
         sampleProvider?.SetInstrument(program);
     }
 
+
+    /// <summary>
+    /// Проигрывает ноту (вызывается из Godot при нажатии клавиши)
+    /// </summary>
     public void PlayNote(int note, int velocity)
     {
         sampleProvider?.PlayNote(note, 0, velocity);
     }
 
+
+    /// <summary>
+    /// Останавливает ноту (отпускание клавиши)
+    /// </summary>
     public void StopNote(int note)
     {
         sampleProvider?.StopNote(note, 0);
